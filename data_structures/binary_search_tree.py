@@ -171,10 +171,10 @@ class TreeNode(object):
         return self.right_child
 
     def is_left_child(self):
-        return self.parent and self.parent.right_child == self
+        return self.parent and self.parent.left_child == self
 
     def is_right_child(self):
-        return self.parent and self.parent.left_child == self
+        return self.parent and self.parent.right_child == self
 
     def is_root(self):
         return not self.parent
