@@ -38,13 +38,13 @@ class TestBinarySearchTree(unittest.TestCase):
         self.bst[4] = 1
         self.assertTrue(4 in self.bst)
 
-    def test_delete_bst_of_one(self):
+    def test_delete_node_bst_of_one(self):
         self.bst[1] = 'Short-Lived'
         self.assertTrue(1 in self.bst)
         del self.bst[1]
         self.assertFalse(1 in self.bst)
 
-    def test_delete_bst_of_many(self):
+    def test_delete_node_bst_of_many(self):
         self.bst[1] = 'Short-Lived'
         self.bst[2] = 'Shorter-Lived'
         self.assertTrue(2 in self.bst)
@@ -53,9 +53,84 @@ class TestBinarySearchTree(unittest.TestCase):
         with self.assertRaises(KeyError):
             del self.bst[2]
 
-    def test_delete_bst_of_none(self):
+    def test_delete_node_bst_of_none(self):
         with self.assertRaises(KeyError):
             del self.bst[1]
+
+    def test_delete_node_both_children(self):
+        self.bst[1] = 'a'
+        self.bst[2] = 'a'
+        self.bst[0] = 'a'
+        self.assertTrue(self.bst.root.has_both_children())
+        del self.bst[1]
+        self.assertFalse(1 in self.bst)
+
+    def test_delete_left_child_node(self):
+        self.bst[1] = 'a'
+        self.bst[2] = 'a'
+        self.bst[0] = 'a'
+        left_child = self.bst._get(0, self.bst.root)
+        self.assertTrue(left_child.is_left_child())
+        del self.bst[0]
+        self.assertFalse(0 in self.bst)
+
+    def test_delete_right_child_node(self):
+        self.bst[1] = 'a'
+        self.bst[2] = 'a'
+        self.bst[0] = 'a'
+        right_child = self.bst._get(2, self.bst.root)
+        self.assertTrue(right_child.is_right_child())
+        del self.bst[2]
+        self.assertFalse(2 in self.bst)
+
+
+class TestTreeNode(unittest.TestCase):
+
+    TreeNode = data_structures.binary_search_tree.TreeNode
+
+    def setUp(self):
+        self.mynode = self.TreeNode(1, 'test')
+
+    def test_tree_node_instantiate(self):
+        self.assertIsInstance(self.mynode, self.TreeNode)
+
+    def test_has_right_child(self):
+        self.assertFalse(self.mynode.has_right_child())
+        self.mynode.right_child = 2
+        self.assertTrue(self.mynode.has_right_child())
+
+    def test_has_left_child(self):
+        self.assertFalse(self.mynode.has_left_child())
+        self.mynode.left_child = 2
+        self.assertTrue(self.mynode.has_left_child())
+
+    # These two are tested elsewhere:
+
+    def test_is_left_child(self):
+        pass
+
+    def test_is_right_child(self):
+        pass
+
+    def test_is_root(self):
+        self.assertTrue(self.mynode.is_root())
+
+    def test_is_leaf(self):
+        self.assertTrue(self.mynode.is_leaf())
+
+    def test_has_any_children(self):
+        self.assertFalse(self.mynode.has_any_children())
+
+    def test_has_both_children(self):
+        self.assertFalse(self.mynode.has_both_children())
+
+    def test_replace_node_data(self):
+        self.mynode.replace_node_data(1, 'b')
+        self.assertTrue(self.mynode.payload, 'b')
+
+    def test_splice_out(self):
+        pass
+
 
 if __name__ == '__main__':
     unittest.main()

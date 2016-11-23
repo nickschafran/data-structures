@@ -1,8 +1,20 @@
+# -*- coding: utf-8 -*-
 """Implementation of Binary Search Tree.
 
-Derived from the book:
+Built upon the implementation in:
     Problem Solving with Algorithms and Data Structures
-    By Brad Miller and David Ranum
+    By Brad Miller and David Ranum <https://interactivepython.org/runestone/
+    static/pythonds/Trees/SearchTreeImplementation.html>
+    Copyright 2014 Brad Miller, David Ranum; Licensed under the Creative
+    Commons Attribution-NonCommercial-ShareAlike 4.0 International License
+    <https://creativecommons.org/licenses/by-nc-sa/4.0/>
+
+Notes:
+    Implementation made PEP8 compliant, Python 3 compatible, docstrings added,
+    and more cleanly expressed overall. Also note that there is a bug in the
+    original implementation--some of the methods which should be in the
+    TreeNode class were in the BinarySearchTree class, causing delete
+    functionality to be broken. Fixed here.
 """
 from __future__ import print_function
 
@@ -62,12 +74,12 @@ class BinarySearchTree(object):
                     key, val, parent=current_node
                 )
 
-    def __setitem__(self, k, v):
+    def __setitem__(self, key, value):
         """Overload the [] assignment operator with put method."""
-        self.put(k, v)
+        self.put(key, value)
 
     def get(self, key):
-        """Return node from the tree. If no nodes exist, return None"""
+        """Return node key from the tree. If no nodes exist, return None"""
         if self.root:
             res = self._get(key, self.root)
             if res:
@@ -78,7 +90,7 @@ class BinarySearchTree(object):
             return None
 
     def _get(self, key, current_node):
-        """Recursively search tree for key to return."""
+        """Recursively search tree for node to return."""
         if not current_node:
             return None
         elif current_node.key == key:
@@ -164,6 +176,16 @@ class TreeNode(object):
         self.right_child = right
         self.parent = parent
 
+    def __iter__(self):
+        if self:
+            if self.has_left_child():
+                for elem in self.left_child:
+                    yield elem
+            yield self.key
+            if self.has_right_child():
+                for elem in self.right_child:
+                    yield elem
+
     def has_left_child(self):
         return self.left_child
 
@@ -188,11 +210,11 @@ class TreeNode(object):
     def has_both_children(self):
         return self.right_child and self.left_child
 
-    def replace_node_data(self, key, value, lc, rc):
+    def replace_node_data(self, key, value, left_child=None, right_child=None):
         self.key = key
         self.payload = value
-        self.left_child = lc
-        self.right_child = rc
+        self.left_child = left_child
+        self.right_child = right_child
         if self.has_left_child():
             self.left_child.parent = self
         if self.has_right_child():
@@ -237,14 +259,3 @@ class TreeNode(object):
         while current.has_left_child():
             current = current.left_child
         return current
-
-
-if __name__ == '__main__':
-    mytree = BinarySearchTree()
-    mytree[3] = 'red'
-    mytree[4] = 'blue'
-    mytree[6] = 'yellow'
-    mytree[2] = 'at'
-
-    print(mytree[6])
-    print(mytree[2])
