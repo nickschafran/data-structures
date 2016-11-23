@@ -46,7 +46,7 @@ class BinarySearchTree(object):
         self.size = self.size + 1
 
     def _put(self, key, val, current_node):
-        """Search tree for a position to place node in."""
+        """Recursively search tree for a position to place node in."""
         if key < current_node.key:
             if current_node.has_left_child():
                 self._put(key, val, current_node.left_child)
@@ -67,6 +67,7 @@ class BinarySearchTree(object):
         self.put(k, v)
 
     def get(self, key):
+        """Return node from the tree. If no nodes exist, return None"""
         if self.root:
             res = self._get(key, self.root)
             if res:
@@ -77,6 +78,7 @@ class BinarySearchTree(object):
             return None
 
     def _get(self, key, current_node):
+        """Recursively search tree for key to return."""
         if not current_node:
             return None
         elif current_node.key == key:
@@ -87,13 +89,17 @@ class BinarySearchTree(object):
             return self._get(key, current_node.right_child)
 
     def __getitem__(self, key):
+        """Define __getitem__ method to call get."""
         return self.get(key)
 
     def __contains__(self, key):
+        """Define in operator"""
         return bool(self._get(key, self.root))
 
     def delete(self, key):
+        """Delete node from tree."""
         if self.size > 1:
+            # We will have to search the tree
             node_to_remove = self._get(key, self.root)
             if node_to_remove:
                 self.remove(node_to_remove)
@@ -101,53 +107,15 @@ class BinarySearchTree(object):
             else:
                 raise KeyError('Key not in tree')
         elif self.size == 1 and self.root.key == key:
+            # Key to remove is only member
             self.root = None
             self.size = self.size - 1
         else:
             raise KeyError('Key not in tree')
 
     def __delitem__(self, key):
+        """Assign del operator to self.delete() method"""
         self.delete(key)
-
-    def splice_out(self):
-        if self.is_leaf():
-            if self.is_left_child:
-                self.parent.left_child = None
-            else:
-                self.parent.right_child = None
-        elif self.has_any_children():
-            if self.has_left_child():
-                if self.is_left_child():
-                    self.parent.left_child = self.left_child
-                else:
-                    self.parent.right_child = self.left_child
-                self.left_child.parent = self.parent
-            else:
-                if self.is_left_child():
-                    self.parent.left_child = self.right_child
-                else:
-                    self.parent.right_child = self.right_child
-                self.right_child.parent = self.parent
-
-    def find_succesor(self):
-        succ = None
-        if self.has_right_child():
-            succ = self.right_child.find_min()
-        else:
-            if self.parent:
-                if self.is_left_child():
-                    succ = self.parent
-                else:
-                    self.parent.right_child = None
-                    succ = self.parent.find_succesor()
-                    self.parent.right_child = self
-        return succ
-
-    def find_min(self):
-        current = self
-        while current.has_left_child():
-            current = current.left_child
-        return current
 
     def remove(self, current_node):
         if current_node.is_leaf():  # leaf
@@ -229,6 +197,46 @@ class TreeNode(object):
             self.left_child.parent = self
         if self.has_right_child():
             self.right_child.parent = self
+
+    def splice_out(self):
+        if self.is_leaf():
+            if self.is_left_child:
+                self.parent.left_child = None
+            else:
+                self.parent.right_child = None
+        elif self.has_any_children():
+            if self.has_left_child():
+                if self.is_left_child():
+                    self.parent.left_child = self.left_child
+                else:
+                    self.parent.right_child = self.left_child
+                self.left_child.parent = self.parent
+            else:
+                if self.is_left_child():
+                    self.parent.left_child = self.right_child
+                else:
+                    self.parent.right_child = self.right_child
+                self.right_child.parent = self.parent
+
+    def find_succesor(self):
+        succ = None
+        if self.has_right_child():
+            succ = self.right_child.find_min()
+        else:
+            if self.parent:
+                if self.is_left_child():
+                    succ = self.parent
+                else:
+                    self.parent.right_child = None
+                    succ = self.parent.find_succesor()
+                    self.parent.right_child = self
+        return succ
+
+    def find_min(self):
+        current = self
+        while current.has_left_child():
+            current = current.left_child
+        return current
 
 
 if __name__ == '__main__':
