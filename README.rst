@@ -2,8 +2,9 @@ Data Structures
 ===============
 
 This repository contains implementation of a few basic data structures in
-Python. It exists for non-commercial, self-learning purposes. Tests are run
-using ``nose``, using the included ``run_coverage_tests.sh`` 'script'.
+Python (2 and 3 compatible, unless noted). It exists for non-commercial,
+self-learning purposes. Tests are run using ``nose``, using the
+included ``run_coverage_tests.sh`` 'script'.
 
 Some of the implementations draw from the book "Problem Solving with Algorithms
 and Data Structures using Python" by Bradley N. Miller, David L. Ranum (©
