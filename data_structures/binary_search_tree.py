@@ -16,7 +16,6 @@ Notes:
     TreeNode class were in the BinarySearchTree class, causing delete
     functionality to be broken. Fixed here.
 """
-from __future__ import print_function
 
 
 class BinarySearchTree(object):
@@ -38,9 +37,24 @@ class BinarySearchTree(object):
         """Overload class __iter__ method with __iter__ method of root."""
         return self.root.__iter__()
 
+    def __setitem__(self, key, value):
+        """Overload the [] assignment operator with put method."""
+        self.put(key, value)
+
+    def __getitem__(self, key):
+        """Define __getitem__ method to call get."""
+        return self.get(key)
+
+    def __contains__(self, key):
+        """Define in operator."""
+        return bool(self._get(key, self.root))
+
+    def __delitem__(self, key):
+        """Assign del operator to self.delete() method."""
+        self.delete(key)
+
     def put(self, key, val):
         """Insert a news node in the tree."""
-
         # TODO:
         # A duplicate key will create a new node with the same key value
         # in the right subtree of the node having the original key.
@@ -74,10 +88,6 @@ class BinarySearchTree(object):
                     key, val, parent=current_node
                 )
 
-    def __setitem__(self, key, value):
-        """Overload the [] assignment operator with put method."""
-        self.put(key, value)
-
     def get(self, key):
         """Return node key from the tree. If no nodes exist, return None"""
         if self.root:
@@ -100,14 +110,6 @@ class BinarySearchTree(object):
         else:
             return self._get(key, current_node.right_child)
 
-    def __getitem__(self, key):
-        """Define __getitem__ method to call get."""
-        return self.get(key)
-
-    def __contains__(self, key):
-        """Define in operator"""
-        return bool(self._get(key, self.root))
-
     def delete(self, key):
         """Delete node from tree."""
         if self.size > 1:
@@ -124,10 +126,6 @@ class BinarySearchTree(object):
             self.size = self.size - 1
         else:
             raise KeyError('Key not in tree')
-
-    def __delitem__(self, key):
-        """Assign del operator to self.delete() method"""
-        self.delete(key)
 
     def remove(self, current_node):
         if current_node.is_leaf():  # leaf

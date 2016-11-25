@@ -83,6 +83,12 @@ class TestBinarySearchTree(unittest.TestCase):
         del self.bst[2]
         self.assertFalse(2 in self.bst)
 
+    def test_iter_yields_correct_key(self):
+        self.bst[1] = 'a'
+        self.bst[2] = 'a'
+        self.bst[0] = 'a'
+        for i in self.bst:
+            self.assertIsInstance(i, int)
 
 class TestTreeNode(unittest.TestCase):
 
@@ -105,10 +111,11 @@ class TestTreeNode(unittest.TestCase):
         self.assertTrue(self.mynode.has_left_child())
 
     # These two are tested elsewhere:
-
+    @unittest.skip('Even though this is covered elsewhere, should have a test')
     def test_is_left_child(self):
         pass
 
+    @unittest.skip('Even though this is covered elsewhere, should have a test')
     def test_is_right_child(self):
         pass
 
@@ -128,6 +135,7 @@ class TestTreeNode(unittest.TestCase):
         self.mynode.replace_node_data(1, 'b')
         self.assertTrue(self.mynode.payload, 'b')
 
+    @unittest.skip('Need to test this functionality')
     def test_splice_out(self):
         pass
 
