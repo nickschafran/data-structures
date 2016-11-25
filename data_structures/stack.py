@@ -25,6 +25,9 @@ class Stack(object):
     def __len__(self):
         return self.size()
 
+    def __repr__(self):
+        return self.items
+
     def size(self):
         """Return number of items in stack."""
         return len(self.items)
