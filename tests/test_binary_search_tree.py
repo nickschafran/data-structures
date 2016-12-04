@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import unittest
 from .context import data_structures
 
@@ -135,9 +136,17 @@ class TestTreeNode(unittest.TestCase):
         self.mynode.replace_node_data(1, 'b')
         self.assertTrue(self.mynode.payload, 'b')
 
-    @unittest.skip('Need to test this functionality')
-    def test_splice_out(self):
-        pass
+    def test_splice_out_with_right_child(self):
+        self.mynode.parent = self.TreeNode(0, 'test')
+        self.mynode.right_child = self.TreeNode(2, 'test')
+        self.mynode.splice_out()
+        self.assertTrue(bool(self.mynode.has_any_children()))
+
+    def test_splice_out_with_right_child(self):
+        self.mynode.parent = self.TreeNode(0, 'test')
+        self.mynode.left_child = self.TreeNode(0, 'test')
+        self.mynode.splice_out()
+        self.assertTrue(bool(self.mynode.has_any_children()))
 
 
 if __name__ == '__main__':
