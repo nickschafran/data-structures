@@ -34,6 +34,10 @@ class TestBinarySearchTree(unittest.TestCase):
     def test_get_empty_tree(self):
         self.assertIsNone(self.bst[3])
 
+    def test_get_empty_tree(self):
+        self.bst.root = data_structures.binary_search_tree.TreeNode('a', 'b')
+        self.assertIsNone(self.bst[3])
+
     def test_contains(self):
         # This seems like a weird use of __contains__?
         self.bst[4] = 1
