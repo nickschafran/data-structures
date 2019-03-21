@@ -2,7 +2,7 @@ Data Structures
 ===============
 
 This repository contains implementation of a few basic data structures in
-Python (2 and 3 compatible, unless noted). It exists for non-commercial,
+Python. It exists for non-commercial,
 self-learning purposes. Tests are run using ``nose``, using the
 included ``run_coverage_tests.sh`` 'script'.
 
