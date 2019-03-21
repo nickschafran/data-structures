@@ -19,8 +19,7 @@ in online form
 Environment Setup
 -----------------
 
-.. code-block:: bash
-   :linenos:
+To setup local environment and run unit tests::
 
    $ pipenv install --dev
    $ pipenv run nosetests --with-coverage --cover-html
